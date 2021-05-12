@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_doctor24/screens/onboarding_screen.dart';
+import 'package:flutter_doctor24/screens/splahScreen.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
@@ -8,13 +9,13 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme:
             GoogleFonts.varelaRoundTextTheme(Theme.of(context).textTheme),
       ),
-      home: OnboardingScreen(),
+      home: SplashScreen(),
     );
   }
 }
