@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/screens/home_screen.dart';
+import 'package:flutter_doctor24/utils/size_config.dart';
 import 'package:get/get.dart';
-
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -14,8 +14,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     initialPage: 0,
     keepPage: true,
   );
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -23,20 +25,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Colors.white,
-                image: DecorationImage(
-                    image: AssetImage(
-                        'assets/images/bg.png'
-                    )
-                )
-            ),
+                color: Colors.white,
+                image:
+                    DecorationImage(image: AssetImage('assets/images/bg.png'))),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Spacer(),
               Container(
-                height: 520,
+                height: getProportionateScreenHeight(540),
                 child: PageView(
                   controller: _pageController,
                   children: [
@@ -48,23 +46,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPageChanged: (value) => {setCurrentPage(value)},
                 ),
               ),
-
+              Spacer(
+              ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (index) => getIndicator(index))
-              ),
-
+                  children: List.generate(4, (index) => getIndicator(index))),
               Spacer(
-                flex: 3,
               ),
-
-            ],
-          ),
-          Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: GestureDetector(
+              GestureDetector(
                 onTap: changePage,
                 child: Container(
                   height: 70,
@@ -73,33 +62,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
-                          colors:  [Color(0xffee4545), Color(0xfff11010)],
-                          stops: [0,1],
-                          begin: Alignment.topCenter
-                      )
-                  ),
+                          colors: [Color(0xffee4545), Color(0xfff11010)],
+                          stops: [0, 1],
+                          begin: Alignment.topCenter)),
                   child: Icon(
                     Icons.arrow_forward,
                     color: Colors.white,
                     size: 40,
-                  ),
-                ),
+                  )
+                )
+              ),
+              SizedBox(
+                height: 8,
               )
+            ],
           ),
-
         ],
       ),
     );
   }
-  setCurrentPage(int value)
-  {
-    currentPage = value;
-    setState(() {
 
-    });
+  setCurrentPage(int value) {
+    currentPage = value;
+    setState(() {});
   }
-  AnimatedContainer getIndicator(int pageNo)
-  {
+
+  AnimatedContainer getIndicator(int pageNo) {
     return AnimatedContainer(
         duration: Duration(milliseconds: 100),
         height: 8,
@@ -107,51 +95,47 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         margin: EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            color: (currentPage == pageNo) ? Colors.redAccent : Colors.grey
-        )
-    );
+            color: (currentPage == pageNo) ? Colors.redAccent : Colors.grey));
   }
-  Column onBoardPage(String img, String title)
-  {
+
+  Column onBoardPage(String img, String title) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: 220,
+          height: 250,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(50),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/$img.png')
-              )
-          ),
+              image:
+                  DecorationImage(image: AssetImage('assets/images/$img.png'))),
         ),
         Container(
           padding: EdgeInsets.symmetric(vertical: 10),
-          child: Text(title, style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w500
-          ),),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+          ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-          child: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text", style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey
-          ),textAlign: TextAlign.center,),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          child: Text(
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum andard dummy text",
+            style: TextStyle(fontSize: 16, color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),
         )
       ],
     );
   }
-  void changePage()
-  {
+
+  void changePage() {
     print(currentPage);
-    if(currentPage == 3)
-    {
-      Get.off(()=>HomeScreen());
-    }
-    else{
-      _pageController.animateToPage(currentPage+1, duration: Duration(milliseconds: 300), curve: Curves.linear);
+    if (currentPage == 3) {
+      Get.off(() => HomeScreen());
+    } else {
+      _pageController.animateToPage(currentPage + 1,
+          duration: Duration(milliseconds: 300), curve: Curves.linear);
     }
   }
 }
