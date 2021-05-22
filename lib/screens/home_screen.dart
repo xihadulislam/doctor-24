@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/category_card.dart';
 import 'package:flutter_doctor24/components/doctor_card.dart';
 import 'package:flutter_doctor24/components/search_bar.dart';
+import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../constant.dart';
 
@@ -18,6 +19,9 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -34,7 +38,7 @@ class HomeScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  'Find Your Desired\nDoctor',
+                  'আপনার পছন্দসই\nডাক্তারটি সন্ধান করুন',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 32,
@@ -42,38 +46,29 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 30),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: SearchBar(),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  'Categories',
+                  'বিভাগসমূহ',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: kTitleTextColor,
-                    fontSize: 18,
-                  ),
+                      fontWeight: FontWeight.bold,
+                      color: kTitleTextColor,
+                      fontSize: 18),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 16),
               buildCategoryList(),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  'Top Doctors',
+                  "শীর্ষ চিকিৎসক",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: kTitleTextColor,
@@ -81,10 +76,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 10),
               buildDoctorList(),
+              SizedBox(height: 20)
             ],
           ),
         ),
@@ -93,38 +87,12 @@ class HomeScreen extends StatelessWidget {
   }
 
   buildCategoryList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 30,
-          ),
-          CategoryCard(
-            'Dental\nSurgeon',
-            'assets/icons/dental_surgeon.png',
-            kBlueColor,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          CategoryCard(
-            'Heart\nSurgeon',
-            'assets/icons/heart_surgeon.png',
-            kYellowColor,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          CategoryCard(
-            'Eye\nSpecialist',
-            'assets/icons/eye_specialist.png',
-            kOrangeColor,
-          ),
-          SizedBox(
-            width: 30,
-          ),
-        ],
+    return Consumer<DataProvider>(
+      builder: (ctx, data, _) => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+            children: List.generate(data.categoryList.length,
+                (index) => CategoryCard(data.categoryList[index]))),
       ),
     );
   }
@@ -134,36 +102,10 @@ class HomeScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         horizontal: 30,
       ),
-      child: Column(
-        children: <Widget>[
-          DoctorCard(
-            'Dr. Stella Kane',
-            'Heart Surgeon - Flower Hospitals',
-            'assets/images/doctor1.png',
-            kBlueColor,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          DoctorCard(
-            'Dr. Joseph Cart',
-            'Dental Surgeon - Flower Hospitals',
-            'assets/images/doctor2.png',
-            kYellowColor,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          DoctorCard(
-            'Dr. Stephanie',
-            'Eye Specialist - Flower Hospitals',
-            'assets/images/doctor3.png',
-            kOrangeColor,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-        ],
+      child: Consumer<DataProvider>(
+        builder: (ctx, data, _) => Column(
+            children: List.generate(data.allDoctorList.length,
+                (index) => DoctorCard(data.allDoctorList[index]))),
       ),
     );
   }

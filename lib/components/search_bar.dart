@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/screens/searchLisScreen.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../constant.dart';
 
@@ -21,7 +23,7 @@ class SearchBar extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: TextField(
               decoration: InputDecoration.collapsed(
-                hintText: 'Search for doctors',
+                hintText: 'ডাক্তারদের সন্ধান করুন',
               ),
             ),
           ),
@@ -29,7 +31,9 @@ class SearchBar extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(()=> SearchLisScreen());
+            },
             color: kOrangeColor,
             padding: EdgeInsets.symmetric(
               horizontal: 10,

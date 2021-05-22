@@ -1,59 +1,64 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/models/Department.dart';
+import 'package:flutter_doctor24/screens/doctorListScreen.dart';
+import 'package:get/get.dart';
 
 import '../constant.dart';
 
 class CategoryCard extends StatelessWidget {
-  var _title;
-  var _imageUrl;
-  var _bgColor;
+  final Department department;
 
-  CategoryCard(this._title, this._imageUrl, this._bgColor);
+  CategoryCard(this.department);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 130,
-      height: 160,
-      child: Stack(
-        children: <Widget>[
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Container(
-              width: 110,
-              height: 137,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
+    return GestureDetector(
+      onTap: (){
+        Get.to(()=> DoctorListScreen());
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 6.0),
+        width: 130,
+        height: 160,
+        child: Stack(
+          children: <Widget>[
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  _title,
-                  style: TextStyle(
-                    color: kTitleTextColor,
+              child: Container(
+                width: 120,
+                height: 137,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    department.title,
+                    style: TextStyle(
+                        color: kTitleTextColor, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            right: 0,
-            child: Container(
-              height: 84,
-              width: 84,
-              decoration: BoxDecoration(
-                color: _bgColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Image.asset(
-                _imageUrl,
+            Positioned(
+              right: 0,
+              child: Container(
+                height: 84,
+                width: 84,
+                decoration: BoxDecoration(
+                  color: department.color,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Image.asset(
+                  department.image,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,21 +1,22 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constant.dart';
 
 class ScheduleCard extends StatelessWidget {
-  var _title;
+
   var _description;
   var _date;
   var _month;
   var _bgColor;
 
-  ScheduleCard(
-      this._title, this._description, this._date, this._month, this._bgColor);
+  ScheduleCard(this._description, this._date, this._month, this._bgColor);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: _bgColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
@@ -54,7 +55,7 @@ class ScheduleCard extends StatelessWidget {
             ),
           ),
           title: Text(
-            _title,
+            "পরামর্শ",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: kTitleTextColor,

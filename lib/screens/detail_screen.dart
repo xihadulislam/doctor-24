@@ -1,16 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/schedule_card.dart';
+import 'package:flutter_doctor24/models/Doctor.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../constant.dart';
 
 class DetailScreen extends StatelessWidget {
-  var _name;
-  var _description;
-  var _imageUrl;
 
-  DetailScreen(this._name, this._description, this._imageUrl);
+  final Doctor doctor;
+
+  DetailScreen(this.doctor);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class DetailScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: 30,
+                height: 60,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -54,7 +54,7 @@ class DetailScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.24,
+                height: MediaQuery.of(context).size.height * 0.19,
               ),
               Container(
                 width: double.infinity,
@@ -72,7 +72,7 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Image.asset(
-                            _imageUrl,
+                            doctor.image,
                             height: 120,
                           ),
                           SizedBox(
@@ -83,7 +83,7 @@ class DetailScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  _name,
+                                  doctor.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
@@ -94,13 +94,13 @@ class DetailScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  _description,
+                                  doctor.workStart,
                                   style: TextStyle(
                                     color: kTitleTextColor.withOpacity(0.7),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 6,
                                 ),
                                 Row(
                                   children: <Widget>[
@@ -148,21 +148,18 @@ class DetailScreen extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 30,
                       ),
                       Text(
-                        'About Doctor',
+                        'চেম্বার',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: kTitleTextColor,
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Text(
-                        'Dr. Stella is the top most heart surgeon in Flower\nHospital. She has done over 100 successful sugeries\nwithin past 3 years. She has achieved several\nawards for her wonderful contribution in her own\nfield. She’s available for private consultation for\ngiven schedules.',
+                        doctor.chamber,
                         style: TextStyle(
                           height: 1.6,
                           color: kTitleTextColor.withOpacity(0.7),
@@ -172,43 +169,46 @@ class DetailScreen extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        'Upcoming Schedules',
+                        'ডাক্তার সম্পর্কে',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: kTitleTextColor,
                         ),
                       ),
                       SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        doctor.qualification,
+                        style: TextStyle(
+                          height: 1.6,
+                          color: kTitleTextColor.withOpacity(0.7),
+                        ),
+                      ),
+
+
+                      SizedBox(
                         height: 20,
                       ),
-                      ScheduleCard(
-                        'Consultation',
-                        'Sunday . 9am - 11am',
-                        '12',
-                        'Jan',
-                        kBlueColor,
+
+                      Text(
+                        "রোগী দেখেন",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: kTitleTextColor,
+                        ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      ScheduleCard(
-                        'Consultation',
-                        'Sunday . 9am - 11am',
-                        '13',
-                        'Jan',
-                        kYellowColor,
+
+                      Column(
+                        children: List.generate(doctor.offDay.length, (index) => ScheduleCard(
+                       " ${doctor.offDay[index]} . ${doctor.visitingTime}" , "12", "jan", kBlueColor)),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ScheduleCard(
-                        'Consultation',
-                        'Sunday . 9am - 11am',
-                        '14',
-                        'Jan',
-                        kOrangeColor,
-                      ),
+
                       SizedBox(
                         height: 20,
                       ),
@@ -222,4 +222,9 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+
 }

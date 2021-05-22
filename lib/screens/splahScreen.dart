@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/providers/DataProvider.dart';
+import 'package:flutter_doctor24/screens/home_screen.dart';
 import 'package:flutter_doctor24/screens/onboarding_screen.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../constant.dart';
 
@@ -16,12 +19,15 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      Get.off(() => OnboardingScreen());
+      Get.off(() => HomeScreen());
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    Provider.of<DataProvider>(context,listen: false).fetchData();
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Doctor {
   int id;
   String name;
@@ -6,10 +8,10 @@ class Doctor {
   String workStart;
   String chamber;
   String visitingTime;
-  String offDay;
+  List<String> offDay;
   String mobileNumber;
   int categoryId;
-  int color;
+  Color color;
 
   Doctor(
       {this.id,
@@ -32,7 +34,12 @@ class Doctor {
     workStart = json['workStart'];
     chamber = json['chamber'];
     visitingTime = json['visitingTime'];
-    offDay = json['offDay'];
+    if (json['offDay'] != null) {
+      offDay = new List<String>();
+      json['offDay'].forEach((v) {
+        offDay.add(v);
+      });
+    }
     mobileNumber = json['mobileNumber'];
     categoryId = json['category_id'];
     color = json['color'];
@@ -47,7 +54,9 @@ class Doctor {
     data['workStart'] = this.workStart;
     data['chamber'] = this.chamber;
     data['visitingTime'] = this.visitingTime;
-    data['offDay'] = this.offDay;
+    if (this.offDay != null) {
+      data['offDay'] = this.offDay.map((v) => v).toList();
+    }
     data['mobileNumber'] = this.mobileNumber;
     data['category_id'] = this.categoryId;
     data['color'] = this.color;

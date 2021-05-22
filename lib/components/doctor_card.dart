@@ -1,16 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/models/Doctor.dart';
 import 'package:flutter_doctor24/screens/detail_screen.dart';
 
 import '../constant.dart';
 
 class DoctorCard extends StatelessWidget {
-  var _name;
-  var _description;
-  var _imageUrl;
-  var _bgColor;
 
-  DoctorCard(this._name, this._description, this._imageUrl, this._bgColor);
+  final Doctor doctor;
+  DoctorCard(this.doctor);
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +17,29 @@ class DoctorCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailScreen(_name, _description, _imageUrl),
+            builder: (context) => DetailScreen(doctor),
           ),
         );
       },
-      child: DecoratedBox(
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: _bgColor.withOpacity(0.1),
+          color: doctor.color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: EdgeInsets.all(10),
           child: ListTile(
-            leading: Image.asset(_imageUrl),
+            leading: Image.asset(doctor.image),
             title: Text(
-              _name,
+              doctor.name,
               style: TextStyle(
                 color: kTitleTextColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              _description,
+              doctor.chamber,
               style: TextStyle(
                 color: kTitleTextColor.withOpacity(0.7),
               ),
