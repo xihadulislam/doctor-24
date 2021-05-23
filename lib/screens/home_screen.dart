@@ -23,10 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: AnimatedContainer(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         transform: Matrix4.translationValues(xOffset, yOffset, 0)
           ..scale(isDrawerOpen ? 0.85 : 1.00)
           ..rotateZ(isDrawerOpen ? -50 : 0),
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 500),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: isDrawerOpen
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     isDrawerOpen
                         ? GestureDetector(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: Icon(Icons.arrow_back_ios),
                       ),
                       onTap: () {
@@ -61,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                         : GestureDetector(
                       child:Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(12.0),
                         child: SvgPicture.asset('assets/icons/menu.svg'),
                       ),
                       onTap: () {
@@ -73,7 +75,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
 
-                    SvgPicture.asset('assets/icons/profile.svg'),
+                    GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            xOffset = 290;
+                            yOffset = 80;
+                            isDrawerOpen = true;
+                          });
+                        },
+                        child: SvgPicture.asset('assets/icons/profile.svg')),
                   ],
                 ),
               ),
@@ -149,8 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Consumer<DataProvider>(
         builder: (ctx, data, _) => Column(
-            children: List.generate(data.allDoctorList.length,
-                (index) => DoctorCard(data.allDoctorList[index]))),
+            children: List.generate(data.topDoctorList.length,
+                (index) => DoctorCard(data.topDoctorList[index]))),
       ),
     );
   }

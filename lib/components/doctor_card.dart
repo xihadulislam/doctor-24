@@ -24,7 +24,7 @@ class DoctorCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: doctor.color.withOpacity(0.1),
+          color: kBlueColor.withOpacity(0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(

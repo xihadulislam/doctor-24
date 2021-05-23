@@ -94,7 +94,7 @@ class DetailScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  doctor.workStart,
+                                  doctor.worksAt,
                                   style: TextStyle(
                                     color: kTitleTextColor.withOpacity(0.7),
                                   ),
@@ -205,8 +205,8 @@ class DetailScreen extends StatelessWidget {
                       ),
 
                       Column(
-                        children: List.generate(doctor.offDay.length, (index) => ScheduleCard(
-                       " ${doctor.offDay[index]} . ${doctor.visitingTime}" , "12", "jan", kBlueColor)),
+                        children: List.generate(doctor.onDay.length, (index) => ScheduleCard(
+                       " ${doctor.onDay[index]} . ${doctor.visitingTime}" , "12", "jan", kBlueColor)),
                       ),
 
                       SizedBox(

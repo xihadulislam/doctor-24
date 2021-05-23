@@ -1,9 +1,12 @@
+import 'dart:math';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_doctor24/models/Department.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
-
 import '../constant.dart';
+
 
 class DataProvider with ChangeNotifier {
   List<Department> _categoryList = [];
@@ -20,75 +23,58 @@ class DataProvider with ChangeNotifier {
 
   fetchData() {
     fetchDepartments();
-    fetchAllDoctorList();
+    readData();
   }
 
-  fetchAllDoctorList() {
-    var doc = Doctor(
-        id: 1,
-        name: "ডাঃ মোঃ আবদুল গনি",
-        image: "assets/images/doctor1.png",
-        qualification:
-            "এমবিবিএস (সিইউ), ডি-কার্ড (বিএসএমএমইউ), পিজিটি (মেডিসিন ও কার্ডিওলজি) হৃদরোগ বিশেষজ্ঞ ক্লিনিকাল এবং ইন্টারভেনশনাল কার্ডিওলজিতে বিশেষ প্রশিক্ষণ (অ্যাপোলো হাসপাতাল, ঢাকা) পেডিয়াট্রিক কার্ডিওলজি এবং পেডিয়াট্রিক ইকোকার্ডিওগ্রাফি (ভারত) এ সর্বাধিক প্রশিক্ষিত",
-        workStart:
-            "সহকারী অধ্যাপক, কার্ডিওলজি বিভাগ নর্থ-ইস্ট মেডিকেল কলেজ ও হাসপাতাল, সিলেট।",
-        chamber: "ওয়েসিস হাসপাতাল সিলেট",
-        visitingTime: "4.00 Pm–9.00 PM",
-        offDay: ["শনি", "রবিবার"],
-        mobileNumber: "01763990055",
-        categoryId: 1,
-        color: kBlueGreyColor);
+  final databaseReference = FirebaseDatabase.instance.reference();
 
-    var doc2 = Doctor(
-        id: 1,
-        name: "ডাঃ মোঃ আবদুল গনি",
-        image: "assets/images/doctor2.png",
-        qualification:
-            "এমবিবিএস (সিইউ), ডি-কার্ড (বিএসএমএমইউ), পিজিটি (মেডিসিন ও কার্ডিওলজি) হৃদরোগ বিশেষজ্ঞ ক্লিনিকাল এবং ইন্টারভেনশনাল কার্ডিওলজিতে বিশেষ প্রশিক্ষণ (অ্যাপোলো হাসপাতাল, ঢাকা) পেডিয়াট্রিক কার্ডিওলজি এবং পেডিয়াট্রিক ইকোকার্ডিওগ্রাফি (ভারত) এ সর্বাধিক প্রশিক্ষিত",
-        workStart:
-            "সহকারী অধ্যাপক, কার্ডিওলজি বিভাগ নর্থ-ইস্ট মেডিকেল কলেজ ও হাসপাতাল, সিলেট।",
-        chamber: "ওয়েসিস হাসপাতাল সিলেট",
-        visitingTime: "4.00 Pm–9.00 PM",
-        offDay: ["শনি", "রবিবার"],
-        mobileNumber: "01763990055",
-        categoryId: 1,
-        color: kYellowColor);
+  void readData() async {
+   var re =   await  databaseReference.child("Doctors").once().then((DataSnapshot snapshot) {
+      for (var value in snapshot.value.entries) {
+        var dr = Doctor(
+            value.value["categoryId"],
+            value.value[ "chamber"],
+            value.value[ "color"],
+            value.value[ "contact"],
+            value.value[ "division"],
+            value.value[ "id"],
+            value.value[ "image"],
+            value.value[ "name"],
+            value.value["onDay"].cast<String>(),
+            value.value[ "qualification"],
+            value.value[ "visitingTime"],
+            value.value[ "worksAt"]
+        );
+        _allDoctorList.add(dr);
+      }
 
-    var doc3 = Doctor(
-        id: 1,
-        name: "ডাঃ মোঃ আবদুল গনি",
-        image: "assets/images/doctor3.png",
-        qualification:
-            "এমবিবিএস (সিইউ), ডি-কার্ড (বিএসএমএমইউ), পিজিটি (মেডিসিন ও কার্ডিওলজি) হৃদরোগ বিশেষজ্ঞ ক্লিনিকাল এবং ইন্টারভেনশনাল কার্ডিওলজিতে বিশেষ প্রশিক্ষণ (অ্যাপোলো হাসপাতাল, ঢাকা) পেডিয়াট্রিক কার্ডিওলজি এবং পেডিয়াট্রিক ইকোকার্ডিওগ্রাফি (ভারত) এ সর্বাধিক প্রশিক্ষিত",
-        workStart:
-            "সহকারী অধ্যাপক, কার্ডিওলজি বিভাগ নর্থ-ইস্ট মেডিকেল কলেজ ও হাসপাতাল, সিলেট।",
-        chamber: "ওয়েসিস হাসপাতাল সিলেট",
-        visitingTime: "4.00 Pm–9.00 PM",
-        offDay: ["শনি", "রবিবার"],
-        mobileNumber: "01763990055",
-        categoryId: 1,
-        color: kOrangeColor);
+    });
 
-    _allDoctorList.clear();
-    _allDoctorList.add(doc);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc2);
-    _allDoctorList.add(doc3);
+
+   getTopDoctors();
+
+
   }
+
+  List<Doctor> getDoctorsByCategoryID(int id) {
+    return _allDoctorList.where((element) => element.categoryId == id).toList();
+  }
+
+  List<Doctor> _topDoctorList = [];
+  List<Doctor> get topDoctorList {
+    return [..._topDoctorList];
+  }
+
+  getTopDoctors() {
+   // _allDoctorList.shuffle();
+    _topDoctorList.clear();
+    for(int i=0;i<min(_allDoctorList.length, 5);i++){
+      _topDoctorList.add(_allDoctorList[i]);
+      print("ffffffffffffffffffffff");
+    }
+    notifyListeners();
+  }
+
 
   fetchDepartments() {
     var d = Department(

@@ -8,6 +8,12 @@ import 'dart:math' as math;
 import '../constant.dart';
 
 class DoctorListScreen extends StatefulWidget {
+
+
+  final catId;
+  DoctorListScreen(this.catId);
+
+
   @override
   _DoctorListScreenState createState() => _DoctorListScreenState();
 }
@@ -97,20 +103,6 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                             height: 100,
                           ),
 
-                          Spacer(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                              'আপনার পছন্দসই\nডাক্তারটি সন্ধান',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-
-
                         ],
                       ),
                     ),
@@ -132,7 +124,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
         builder: (ctx, data, _) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0.0),
             child: Column(
-              children: List.generate(data.allDoctorList.length,
+              children: List.generate(data.getDoctorsByCategoryID(widget.catId).length,
                   (index) => DoctorCard(data.allDoctorList[index])),
             )));
   }
