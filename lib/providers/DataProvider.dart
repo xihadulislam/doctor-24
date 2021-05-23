@@ -37,7 +37,7 @@ class DataProvider with ChangeNotifier {
         offDay: ["শনি", "রবিবার"],
         mobileNumber: "01763990055",
         categoryId: 1,
-        color: kBlueColor);
+        color: kBlueGreyColor);
 
     var doc2 = Doctor(
         id: 1,
@@ -95,7 +95,7 @@ class DataProvider with ChangeNotifier {
         id: 1,
         title: "হৃদরোগ\nবিশেষজ্ঞ",
         image: 'assets/icons/heart_surgeon.png',
-        color: kBlueColor);
+        color: kBlueGreyColor);
     var d2 = Department(
         id: 2,
         title: "মেডিসিন\nবিশেষজ্ঞ",
@@ -202,8 +202,6 @@ class DataProvider with ChangeNotifier {
     _categoryList.add(d13);
     _categoryList.add(d14);
     _categoryList.add(d15);
-
-    //  _categoryList.shuffle();
 
     _categoryList.add(d16);
   }

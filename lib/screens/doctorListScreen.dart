@@ -3,7 +3,6 @@ import 'package:flutter_doctor24/components/doctor_card.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:statusbar/statusbar.dart';
 import 'dart:math' as math;
 
 import '../constant.dart';

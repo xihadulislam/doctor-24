@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_doctor24/screens/home_screen.dart';
+import 'package:flutter_doctor24/screens/mainScreen.dart';
 import 'package:flutter_doctor24/screens/onboarding_screen.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      Get.off(() => HomeScreen());
+      Get.off(() => MainScreen());
     });
   }
 

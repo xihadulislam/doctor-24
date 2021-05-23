@@ -8,13 +8,31 @@ import 'package:provider/provider.dart';
 
 import '../constant.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  double xOffset = 0;
+  double yOffset = 0;
+
+  bool isDrawerOpen = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        bottom: false,
+    return SafeArea(
+      child: AnimatedContainer(
+        transform: Matrix4.translationValues(xOffset, yOffset, 0)
+          ..scale(isDrawerOpen ? 0.85 : 1.00)
+          ..rotateZ(isDrawerOpen ? -50 : 0),
+        duration: Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: isDrawerOpen
+              ? BorderRadius.circular(40)
+              : BorderRadius.circular(0),
+        ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,11 +41,38 @@ class HomeScreen extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SvgPicture.asset('assets/icons/menu.svg'),
+                    isDrawerOpen
+                        ? GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.arrow_back_ios),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          xOffset = 0;
+                          yOffset = 0;
+                          isDrawerOpen = false;
+                        });
+                      },
+                    )
+                        : GestureDetector(
+                      child:Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset('assets/icons/menu.svg'),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          xOffset = 290;
+                          yOffset = 80;
+                          isDrawerOpen = true;
+                        });
+                      },
+                    ),
+
                     SvgPicture.asset('assets/icons/profile.svg'),
                   ],
                 ),
