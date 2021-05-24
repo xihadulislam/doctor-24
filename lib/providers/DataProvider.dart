@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -5,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_doctor24/models/Department.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
+import 'package:gson/gson.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
-
 
 class DataProvider with ChangeNotifier {
   List<Department> _categoryList = [];
@@ -21,37 +23,68 @@ class DataProvider with ChangeNotifier {
     return [..._allDoctorList];
   }
 
+  SharedPreferences _preferences;
+
   fetchData() {
+    iniPref();
+  }
+
+  iniPref() async {
+    _preferences = await SharedPreferences.getInstance();
     fetchDepartments();
     readData();
+  }
+
+  storeListInSP(String val) {
+    _preferences.setString("list", val);
+  }
+
+  String getListFormSp() {
+    var data = _preferences.getString("list") ?? "";
+    return data;
   }
 
   final databaseReference = FirebaseDatabase.instance.reference();
 
   void readData() async {
-   var re =   await  databaseReference.child("Doctors").once().then((DataSnapshot snapshot) {
+
+    List<Doctor> _allDoctors = [];
+
+    var re = await databaseReference
+        .child("Doctors")
+        .once()
+        .then((DataSnapshot snapshot) {
       for (var value in snapshot.value.entries) {
         var dr = Doctor(
             value.value["categoryId"],
-            value.value[ "chamber"],
-            value.value[ "color"],
-            value.value[ "contact"],
-            value.value[ "division"],
-            value.value[ "id"],
-            value.value[ "image"],
-            value.value[ "name"],
+            value.value["chamber"],
+            value.value["color"],
+            value.value["contact"],
+            value.value["division"],
+            value.value["id"],
+            value.value["image"],
+            value.value["name"],
             value.value["onDay"].cast<String>(),
-            value.value[ "qualification"],
-            value.value[ "visitingTime"],
-            value.value[ "worksAt"]
-        );
-        _allDoctorList.add(dr);
+            value.value["qualification"],
+            value.value["visitingTime"],
+            value.value["worksAt"]);
+        _allDoctors.add(dr);
       }
-
     });
 
+    String g = Gson().encode(_allDoctors);
+    storeListInSP(g);
 
-   getTopDoctors();
+   var list =  getListFormSp();
+
+    Iterable l = json.decode(list);
+
+    List<Doctor> posts = List<Doctor>.from(l.map((model)=> Doctor.fromJson(model)));
+
+    _allDoctorList = posts;
+    getTopDoctors(posts);
+
+  print("lllllllllllllllllllllllllllllllllllllllll ${posts[0].name}");
 
 
   }
@@ -61,20 +94,19 @@ class DataProvider with ChangeNotifier {
   }
 
   List<Doctor> _topDoctorList = [];
+
   List<Doctor> get topDoctorList {
     return [..._topDoctorList];
   }
 
-  getTopDoctors() {
-   // _allDoctorList.shuffle();
+  getTopDoctors(List<Doctor> posts) {
+    // _allDoctorList.shuffle();
     _topDoctorList.clear();
-    for(int i=0;i<min(_allDoctorList.length, 5);i++){
-      _topDoctorList.add(_allDoctorList[i]);
-      print("ffffffffffffffffffffff");
+    for (int i = 0; i < min(posts.length, 5); i++) {
+      _topDoctorList.add(posts[i]);
     }
     notifyListeners();
   }
-
 
   fetchDepartments() {
     var d = Department(
