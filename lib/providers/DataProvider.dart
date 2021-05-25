@@ -28,19 +28,23 @@ class DataProvider with ChangeNotifier {
     return [..._allDoctorList];
   }
 
+  List<Doctor> _topDoctorList = [];
+
+  List<Doctor> get topDoctorList {
+    return [..._topDoctorList];
+  }
+
   fetchData() {
     iniPref();
     getAppConfig();
-    fetchDepartments();
   }
 
-
   final databaseReference = FirebaseDatabase.instance.reference();
-  var app ;
+  var app;
+
   var status = Result.Loading;
 
   getAppConfig() async {
-
     try {
       await Firebase.initializeApp();
       final db = FirebaseFirestore.instance;
@@ -50,28 +54,23 @@ class DataProvider with ChangeNotifier {
           .doc('P3ykuD3G6F7hnaHU0aya')
           .get()
           .then((DocumentSnapshot documentSnapshot) {
-
-         app = AppConfig(
+        app = AppConfig(
             documentSnapshot.data()["dateTime"],
             documentSnapshot.data()["appUpdate"],
             documentSnapshot.data()["forceUpdate"]);
 
-        if(getLastUpdate() ==app.dateTime){
+        if (getLastUpdate() == app.dateTime) {
           checkLocal();
-        }else{
+        } else {
+          fetchDepartments();
           fetchDoctorsFormRemote();
         }
-
       });
-
     } on SocketException catch (e) {
       checkLocal();
     } on Error catch (e) {
-
       checkLocal();
-
     }
-
   }
 
   void fetchDoctorsFormRemote() async {
@@ -100,38 +99,66 @@ class DataProvider with ChangeNotifier {
     });
 
     String g = Gson().encode(_allDoctors);
-    storeListInSP(g);
-    storeLastUpdate(app.dateTime);
+    storeDoctorListInSP(g);
+   storeLastUpdate(app.dateTime);
+    checkLocal();
+  }
+
+  fetchDepartments() async {
+    List<Department> _allDepartments = [];
+    await databaseReference
+        .child("Department")
+        .once()
+        .then((DataSnapshot snapshot) {
+
+      for (var value in snapshot.value) {
+        if(value !=null){
+          var dr = Department(
+            value["id"],
+            value["title"],
+            value["image"],
+            value["color"],
+          );
+          _allDepartments.add(dr);
+        }
+      }
+    });
+    String g = Gson().encode(_allDepartments);
+    storeCategoryListInSP(g);
+    _categoryList = _allDepartments;
     checkLocal();
 
   }
 
+  checkLocal() {
+    var catS = getCategoryListFormSp();
 
-  checkLocal(){
-    var list = getListFormSp();
-    Iterable l = json.decode(list);
-    List<Doctor> posts =[];
-    posts =  List<Doctor>.from(l.map((model) => Doctor.fromJson(model)));
-    _allDoctorList = posts;
+    if (catS.isNotEmpty) {
+      Iterable cat = json.decode(catS);
+      List<Department> categories = [];
+      categories =
+      List<Department>.from(cat.map((model) => Department.fromJson(model)));
+      _categoryList = categories;
 
-    if(_allDoctorList.isEmpty){
+      var list = getDoctorListFormSp();
+      Iterable l = json.decode(list);
+      List<Doctor> posts = [];
+      posts = List<Doctor>.from(l.map((model) => Doctor.fromJson(model)));
+      _allDoctorList = posts;
+
       status = Result.Success;
-    }
-    else{
-      status = Result.Failed;
-    }
 
-    getTopDoctors(posts);
+      getTopDoctors(posts);
+    } else {
+      status = Result.Failed;
+      notifyListeners();
+    }
   }
+
+
 
   List<Doctor> getDoctorsByCategoryID(int id) {
     return _allDoctorList.where((element) => element.categoryId == id).toList();
-  }
-
-  List<Doctor> _topDoctorList = [];
-
-  List<Doctor> get topDoctorList {
-    return [..._topDoctorList];
   }
 
   getTopDoctors(List<Doctor> posts) {
@@ -143,137 +170,29 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchDepartments() {
-    var d = Department(
-        id: 1,
-        title: "হৃদরোগ\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kBlueGreyColor);
-    var d2 = Department(
-        id: 2,
-        title: "মেডিসিন\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kYellowColor);
-
-    var d3 = Department(
-        id: 3,
-        title: "স্ত্রীরোগ\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kOrangeColor);
-
-    var d4 = Department(
-        id: 4,
-        title: "অর্থোপেডিক্স \nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kPurpleColor);
-
-    var d5 = Department(
-        id: 5,
-        title: "শিশু\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kBlueColor);
-
-    var d6 = Department(
-        id: 6,
-        title: "নিউরোমেডিসিন\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kYellowColor);
-
-    var d7 = Department(
-        id: 6,
-        title: "ক্যান্সার\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kGreenColor);
-
-    var d8 = Department(
-        id: 6,
-        title: "যৌনরোগ\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kYellowColor);
-
-    var d9 = Department(
-        id: 6,
-        title: "চক্ষু\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kOrangeColor);
-
-    var d10 = Department(
-        id: 6,
-        title: "দন্ত্য\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kBlueColor);
-
-    var d11 = Department(
-        id: 6,
-        title: "ইউরোলজি\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kPurpleColor);
-
-    var d12 = Department(
-        id: 6,
-        title: "নাক,কান ও গলা\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kYellowColor);
-
-    var d13 = Department(
-        id: 6,
-        title: "বক্ষব্যাধি\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kOrangeColor);
-
-    var d14 = Department(
-        id: 6,
-        title: "সার্জারি\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kBlueColor);
-
-    var d15 = Department(
-        id: 6,
-        title: "মানসিক\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kYellowColor);
-
-    var d16 = Department(
-        id: 6,
-        title: "অন্যান্য\nবিশেষজ্ঞ",
-        image: 'assets/icons/heart_surgeon.png',
-        color: kOrangeColor);
-
-    _categoryList.clear();
-    _categoryList.add(d);
-    _categoryList.add(d2);
-    _categoryList.add(d3);
-    _categoryList.add(d4);
-    _categoryList.add(d5);
-    _categoryList.add(d6);
-    _categoryList.add(d7);
-    _categoryList.add(d8);
-    _categoryList.add(d9);
-    _categoryList.add(d10);
-    _categoryList.add(d11);
-    _categoryList.add(d12);
-    _categoryList.add(d13);
-    _categoryList.add(d14);
-    _categoryList.add(d15);
-
-    _categoryList.add(d16);
-  }
-
   SharedPreferences _preferences;
 
   iniPref() async {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  storeListInSP(String val) {
+  storeDoctorListInSP(String val) {
     _preferences.setString("list", val);
   }
 
-  String getListFormSp() {
+  String getDoctorListFormSp() {
     var data = _preferences.getString("list") ?? "";
     return data;
   }
 
+  storeCategoryListInSP(String val) {
+    _preferences.setString("category_list", val);
+  }
+
+  String getCategoryListFormSp() {
+    var data = _preferences.getString("category_list") ?? "";
+    return data;
+  }
 
   storeLastUpdate(String val) {
     _preferences.setString("last_update", val);
@@ -283,7 +202,4 @@ class DataProvider with ChangeNotifier {
     var data = _preferences.getString("last_update") ?? "";
     return data;
   }
-
-
-
 }

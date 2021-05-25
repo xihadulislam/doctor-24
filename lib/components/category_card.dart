@@ -49,7 +49,7 @@ class CategoryCard extends StatelessWidget {
                 height: 84,
                 width: 84,
                 decoration: BoxDecoration(
-                  color: department.color,
+                  color: kOrangeColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Image.asset(

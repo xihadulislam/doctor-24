@@ -5,9 +5,9 @@ class Department {
   int id;
   String title;
   String image;
-  Color color;
+  int color;
 
-  Department({this.id, this.title, this.image, this.color});
+  Department(this.id, this.title, this.image, this.color);
 
   Department.fromJson(Map<String, dynamic> json) {
     id = json['id'];
