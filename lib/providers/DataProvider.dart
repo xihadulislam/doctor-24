@@ -1,11 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_doctor24/models/AppConfig.dart';
 import 'package:flutter_doctor24/models/Department.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
+import 'package:flutter_doctor24/utils/Result.dart';
 import 'package:gson/gson.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
@@ -23,34 +28,56 @@ class DataProvider with ChangeNotifier {
     return [..._allDoctorList];
   }
 
-  SharedPreferences _preferences;
-
   fetchData() {
     iniPref();
-  }
-
-  iniPref() async {
-    _preferences = await SharedPreferences.getInstance();
+    getAppConfig();
     fetchDepartments();
-    readData();
   }
 
-  storeListInSP(String val) {
-    _preferences.setString("list", val);
-  }
-
-  String getListFormSp() {
-    var data = _preferences.getString("list") ?? "";
-    return data;
-  }
 
   final databaseReference = FirebaseDatabase.instance.reference();
+  var app ;
+  var status = Result.Loading;
 
-  void readData() async {
+  getAppConfig() async {
 
+    try {
+      await Firebase.initializeApp();
+      final db = FirebaseFirestore.instance;
+
+      await db
+          .collection('app_config')
+          .doc('P3ykuD3G6F7hnaHU0aya')
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+
+         app = AppConfig(
+            documentSnapshot.data()["dateTime"],
+            documentSnapshot.data()["appUpdate"],
+            documentSnapshot.data()["forceUpdate"]);
+
+        if(getLastUpdate() ==app.dateTime){
+          checkLocal();
+        }else{
+          fetchDoctorsFormRemote();
+        }
+
+      });
+
+    } on SocketException catch (e) {
+      checkLocal();
+    } on Error catch (e) {
+
+      checkLocal();
+
+    }
+
+  }
+
+  void fetchDoctorsFormRemote() async {
     List<Doctor> _allDoctors = [];
 
-    var re = await databaseReference
+    await databaseReference
         .child("Doctors")
         .once()
         .then((DataSnapshot snapshot) {
@@ -74,19 +101,27 @@ class DataProvider with ChangeNotifier {
 
     String g = Gson().encode(_allDoctors);
     storeListInSP(g);
+    storeLastUpdate(app.dateTime);
+    checkLocal();
 
-   var list =  getListFormSp();
+  }
 
+
+  checkLocal(){
+    var list = getListFormSp();
     Iterable l = json.decode(list);
-
-    List<Doctor> posts = List<Doctor>.from(l.map((model)=> Doctor.fromJson(model)));
-
+    List<Doctor> posts =[];
+    posts =  List<Doctor>.from(l.map((model) => Doctor.fromJson(model)));
     _allDoctorList = posts;
+
+    if(_allDoctorList.isEmpty){
+      status = Result.Success;
+    }
+    else{
+      status = Result.Failed;
+    }
+
     getTopDoctors(posts);
-
-  print("lllllllllllllllllllllllllllllllllllllllll ${posts[0].name}");
-
-
   }
 
   List<Doctor> getDoctorsByCategoryID(int id) {
@@ -100,7 +135,7 @@ class DataProvider with ChangeNotifier {
   }
 
   getTopDoctors(List<Doctor> posts) {
-    // _allDoctorList.shuffle();
+    posts.shuffle();
     _topDoctorList.clear();
     for (int i = 0; i < min(posts.length, 5); i++) {
       _topDoctorList.add(posts[i]);
@@ -223,4 +258,32 @@ class DataProvider with ChangeNotifier {
 
     _categoryList.add(d16);
   }
+
+  SharedPreferences _preferences;
+
+  iniPref() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  storeListInSP(String val) {
+    _preferences.setString("list", val);
+  }
+
+  String getListFormSp() {
+    var data = _preferences.getString("list") ?? "";
+    return data;
+  }
+
+
+  storeLastUpdate(String val) {
+    _preferences.setString("last_update", val);
+  }
+
+  String getLastUpdate() {
+    var data = _preferences.getString("last_update") ?? "";
+    return data;
+  }
+
+
+
 }
