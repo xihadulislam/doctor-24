@@ -154,7 +154,6 @@ class DataProvider with ChangeNotifier {
     }
   }
 
-
   List<Doctor> getDoctorsByCategoryID(int id) {
     return _allDoctorList.where((element) => element.categoryId == id).toList();
   }

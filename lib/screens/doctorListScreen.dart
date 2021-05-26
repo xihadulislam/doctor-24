@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/doctor_card.dart';
+import 'package:flutter_doctor24/models/Department.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +11,10 @@ import '../constant.dart';
 class DoctorListScreen extends StatefulWidget {
 
 
-  final catId;
-  DoctorListScreen(this.catId);
+  final Department department;
+
+  DoctorListScreen(this.department);
+
 
 
   @override
@@ -31,7 +34,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 2.6,
                 decoration: BoxDecoration(
-                  color: kOrangeColor,
+                  color: getColor(widget.department.color),
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(70),
                   ),
@@ -124,7 +127,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
         builder: (ctx, data, _) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
             child: Column(
-              children: List.generate(data.getDoctorsByCategoryID(widget.catId).length,
+              children: List.generate(data.getDoctorsByCategoryID(widget.department.id).length,
                   (index) => DoctorCard(data.allDoctorList[index])),
             )));
   }

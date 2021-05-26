@@ -14,7 +14,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Get.to(()=> DoctorListScreen(department.id));
+        Get.to(()=> DoctorListScreen(department));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 6.0),
