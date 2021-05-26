@@ -1,3 +1,4 @@
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/schedule_card.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import '../constant.dart';
 
 class DetailScreen extends StatelessWidget {
-
   final Doctor doctor;
 
   DetailScreen(this.doctor);
@@ -20,6 +20,7 @@ class DetailScreen extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
+              colorFilter: new ColorFilter.mode(getColor(doctor.color).withOpacity(0.8), BlendMode.dstATop),
               image: AssetImage('assets/images/detail_illustration.png'),
               alignment: Alignment.topCenter,
               fit: BoxFit.fitWidth,
@@ -71,9 +72,12 @@ class DetailScreen extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Image.asset(
-                            doctor.image,
-                            height: 120,
+                          Hero(
+                            tag: doctor.id,
+                            child: Image.asset(
+                              getDoctorAvatar(doctor.color),
+                              height: 120,
+                            ),
                           ),
                           SizedBox(
                             width: 20,
@@ -186,12 +190,9 @@ class DetailScreen extends StatelessWidget {
                           color: kTitleTextColor.withOpacity(0.7),
                         ),
                       ),
-
-
                       SizedBox(
                         height: 20,
                       ),
-
                       Text(
                         "রোগী দেখেন",
                         style: TextStyle(
@@ -203,12 +204,15 @@ class DetailScreen extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-
                       Column(
-                        children: List.generate(doctor.onDay.length, (index) => ScheduleCard(
-                       " ${doctor.onDay[index]} . ${doctor.visitingTime}" , "12", "jan", kBlueColor)),
+                        children: List.generate(
+                            doctor.onDay.length,
+                            (index) => ScheduleCard(
+                                " ${doctor.onDay[index]} . ${doctor.visitingTime}",
+                                "12",
+                                "jan",
+                                getColor(Random().nextInt(10)))),
                       ),
-
                       SizedBox(
                         height: 20,
                       ),
@@ -222,9 +226,4 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
-
-
-
-
-
 }

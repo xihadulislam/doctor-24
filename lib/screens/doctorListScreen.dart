@@ -122,7 +122,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
   buildDoctorList() {
     return Consumer<DataProvider>(
         builder: (ctx, data, _) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
             child: Column(
               children: List.generate(data.getDoctorsByCategoryID(widget.catId).length,
                   (index) => DoctorCard(data.allDoctorList[index])),

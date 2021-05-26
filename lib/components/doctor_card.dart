@@ -24,13 +24,15 @@ class DoctorCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: kBlueColor.withOpacity(0.1),
+          color: getColor(doctor.color).withOpacity(0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: EdgeInsets.all(10),
           child: ListTile(
-            leading: Image.asset(doctor.image),
+            leading: Hero(
+                tag: doctor.id,
+                child: Image.asset(getDoctorAvatar(doctor.color))),
             title: Text(
               doctor.name,
               style: TextStyle(
@@ -39,7 +41,8 @@ class DoctorCard extends StatelessWidget {
               ),
             ),
             subtitle: Text(
-              doctor.chamber,
+              doctor.qualification,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: kTitleTextColor.withOpacity(0.7),
               ),

@@ -14,62 +14,48 @@ var kSearchBackgroundColor = Color(0xffF2F2F2);
 var kSearchTextColor = Color(0xffC0C0C0);
 var kCategoryTextColor = Color(0xff292685);
 
-
-
-
-const kPrimaryGradientColor =  LinearGradient(
-  begin: Alignment(-0.80, -0.500),
-  end: Alignment(-0.80, 0.700),
-  stops: [
-    0.1,
-    0.9,
-  ],
-  colors: <Color>[Color(0xFFFFA53E), Color(0xFFFF7643)],
-);
-
-
-// LinearGradient(
-//   begin: Alignment.topLeft,
-//   end: Alignment.bottomRight,
-//   colors: [Color(0xFFFFA53E), Color(0xFFFF7643)],
-// );
-
-
-const LinearGradient kGradientColor = LinearGradient(
-  begin: Alignment(0.80, 0.100),
-  end: Alignment(-0.80, 0.700),
-  stops: [
-    0.1,
-    0.9,
-  ],
-  colors: <Color>[
-    Color(0xffF8E4CC),
-    Color(0xffC4DDE1),
-  ],
-);
-
-class MainButtonWidget extends StatelessWidget {
-  const MainButtonWidget({Key key, @required this.text,  this.onPressed})
-      : super(key: key);
-
-  final Widget text;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: kPrimaryGradientColor,
-        borderRadius: BorderRadius.all(Radius.circular(100)),
-      ),
-      child: FlatButton(
-        onPressed: this.onPressed,
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 16),
-        shape: StadiumBorder(),
-        child: this.text,
-      ),
-    );
+Color getColor(int code) {
+  if (code == 1) {
+    return kBlueColor;
+  } else if (code == 2) {
+    return kOrangeColor;
+  } else if (code == 3) {
+    return kPurpleColor;
+  } else if (code == 4) {
+    return kGreenColor;
+  } else if (code == 5) {
+    return kYellowColor;
+  } else if (code == 10) {
+    return kYellowColor;
+  } else if (code == 11) {
+    return kBlueColor;
+  } else if (code == 12) {
+    return kOrangeColor;
+  } else {
+    return kBlueGreyColor;
   }
 }
 
+String getDoctorAvatar(int code) {
 
+  if (code == 1) {
+    return "assets/images/doctor1.png";
+  } else if (code == 2) {
+    return "assets/images/doctor2.png";
+  } else if (code == 3) {
+    return "assets/images/doctor3.png";
+  } else if (code == 4) {
+    return "assets/images/doctor4.png";
+  } else if (code == 5) {
+    return "assets/images/doctor5.png";
+  } else if (code == 10) {
+    return "assets/images/doctor10.png";
+  } else if (code == 11) {
+    return "assets/images/doctor11.png";
+  } else if (code == 12) {
+    return "assets/images/doctor10.png";
+  } else {
+    return "assets/images/doctor6.png";
+  }
+
+}

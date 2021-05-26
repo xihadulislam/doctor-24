@@ -13,7 +13,6 @@ import 'package:flutter_doctor24/models/Doctor.dart';
 import 'package:flutter_doctor24/utils/Result.dart';
 import 'package:gson/gson.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../constant.dart';
 
 class DataProvider with ChangeNotifier {
   List<Department> _categoryList = [];
@@ -100,7 +99,7 @@ class DataProvider with ChangeNotifier {
 
     String g = Gson().encode(_allDoctors);
     storeDoctorListInSP(g);
-   storeLastUpdate(app.dateTime);
+  // storeLastUpdate(app.dateTime);
     checkLocal();
   }
 
@@ -154,7 +153,6 @@ class DataProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
 
 
   List<Doctor> getDoctorsByCategoryID(int id) {
