@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_doctor24/screens/home_screen.dart';
+import 'package:flutter_doctor24/screens/mainScreen.dart';
 import 'package:flutter_doctor24/utils/size_config.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -132,7 +135,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void changePage() {
     print(currentPage);
     if (currentPage == 3) {
-      Get.off(() => HomeScreen());
+     Provider.of<DataProvider>(context,listen: false).storeIsFirstTime(false);
+      Get.off(() => MainScreen());
     } else {
       _pageController.animateToPage(currentPage + 1,
           duration: Duration(milliseconds: 300), curve: Curves.linear);

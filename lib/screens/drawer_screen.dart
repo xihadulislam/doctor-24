@@ -24,7 +24,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       child: Padding(
         padding: EdgeInsets.only(top: 50, left: 30, bottom: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(
               height: 30,
@@ -177,24 +177,21 @@ class NewRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: press,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          children: <Widget>[
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 28,
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            Text(
-              text,
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            )
-          ],
-        ),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            icon,
+            color: Colors.white,
+            size: 28,
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Text(
+            text,
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          )
+        ],
       ),
     );
   }

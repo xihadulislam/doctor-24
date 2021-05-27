@@ -33,11 +33,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   String deviceId = "";
+  String no = "";
 
   @override
   void initState() {
     super.initState();
-    Provider.of<DataProvider>(context, listen: false).fetchData();
+   var data = Provider.of<DataProvider>(context, listen: false);
+   data.fetchData();
+
+
   //  _getId().then((value) => deviceId = value);
   }
 
@@ -47,13 +51,24 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Consumer<DataProvider>(
         builder: (ctx, data, _) => Column(
           children: [
-            FutureBuilder(
+
+        FutureBuilder(
+        future: Future.delayed(
+        Duration.zero,
+                () => data.getIsFirstTime()== true
+                ? Get.off(() => OnboardingScreen())
+                : Container()),
+          builder: (ctx, _) => Container()),
+
+        FutureBuilder(
                 future: Future.delayed(
                     Duration.zero,
                     () => data.status == Result.Success
                         ? Get.off(() => MainScreen())
                         : Container()),
                 builder: (ctx, _) => Container()),
+
+
 
             Container(
               height: MediaQuery.of(context).size.height,

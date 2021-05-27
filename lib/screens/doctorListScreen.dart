@@ -24,6 +24,7 @@ class DoctorListScreen extends StatefulWidget {
 class _DoctorListScreenState extends State<DoctorListScreen> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<DataProvider>(context,listen: false).getDoctorsByCategoryID(widget.department.id);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -127,8 +128,8 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
         builder: (ctx, data, _) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
             child: Column(
-              children: List.generate(data.getDoctorsByCategoryID(widget.department.id).length,
-                  (index) => DoctorCard(data.allDoctorList[index])),
+              children: List.generate(data.doctorList.length,
+                  (index) => DoctorCard(data.doctorList[index])),
             )));
   }
 }

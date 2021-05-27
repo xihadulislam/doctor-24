@@ -99,7 +99,7 @@ class DataProvider with ChangeNotifier {
 
     String g = Gson().encode(_allDoctors);
     storeDoctorListInSP(g);
-   storeLastUpdate(app.dateTime);
+    storeLastUpdate(app.dateTime);
     checkLocal();
   }
 
@@ -109,9 +109,8 @@ class DataProvider with ChangeNotifier {
         .child("Department")
         .once()
         .then((DataSnapshot snapshot) {
-
       for (var value in snapshot.value) {
-        if(value !=null){
+        if (value != null) {
           var dr = Department(
             value["id"],
             value["title"],
@@ -126,7 +125,6 @@ class DataProvider with ChangeNotifier {
     storeCategoryListInSP(g);
     _categoryList = _allDepartments;
     checkLocal();
-
   }
 
   checkLocal() {
@@ -136,7 +134,7 @@ class DataProvider with ChangeNotifier {
       Iterable cat = json.decode(catS);
       List<Department> categories = [];
       categories =
-      List<Department>.from(cat.map((model) => Department.fromJson(model)));
+          List<Department>.from(cat.map((model) => Department.fromJson(model)));
       _categoryList = categories;
 
       var list = getDoctorListFormSp();
@@ -154,9 +152,41 @@ class DataProvider with ChangeNotifier {
     }
   }
 
-  List<Doctor> getDoctorsByCategoryID(int id) {
-    return _allDoctorList.where((element) => element.categoryId == id).toList();
+  List<Doctor> doctorList = [];
+
+  getDoctorsByCategoryID(int id) {
+    doctorList.clear();
+    _allDoctorList.forEach((element) {
+      if (element.categoryId == id) {
+        doctorList.add(element);
+      }
+    });
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      notifyListeners();
+    });
+
   }
+
+
+  bool loading = true;
+  List<Doctor> searchDoctorList = [];
+
+  getDoctorsBySearch(String msg) {
+
+    searchDoctorList.clear();
+    _allDoctorList.forEach((element) {
+      if (element.name.contains(msg) || element.qualification.contains(msg)) {
+        searchDoctorList.add(element);
+      }
+    });
+    Future.delayed(Duration(milliseconds: 300), () {
+      loading = false;
+      notifyListeners();
+    });
+
+  }
+
 
   getTopDoctors(List<Doctor> posts) {
     posts.shuffle();
@@ -200,4 +230,12 @@ class DataProvider with ChangeNotifier {
     return data;
   }
 
+  storeIsFirstTime(bool val) {
+    _preferences.setBool("isFirstTime", val);
+  }
+
+  bool getIsFirstTime() {
+    var data = _preferences.getBool("isFirstTime") ?? true;
+    return data;
+  }
 }

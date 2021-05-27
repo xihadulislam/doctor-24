@@ -24,7 +24,7 @@ class CategoryCard extends StatelessWidget {
           children: <Widget>[
             Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Container(
                 width: 120,

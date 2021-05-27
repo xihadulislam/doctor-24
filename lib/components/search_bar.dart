@@ -1,14 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_doctor24/screens/searchLisScreen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../constant.dart';
 
 class SearchBar extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
+    var msg ="";
+
     return Stack(
       children: <Widget>[
         Container(
@@ -22,6 +28,9 @@ class SearchBar extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
+              onChanged: (value){
+                msg = value;
+              },
               decoration: InputDecoration.collapsed(
                 hintText: 'ডাক্তারদের সন্ধান করুন',
               ),
@@ -32,7 +41,8 @@ class SearchBar extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: MaterialButton(
             onPressed: () {
-              Get.to(()=> SearchLisScreen());
+              FocusManager.instance.primaryFocus.unfocus();
+              Get.to(()=> SearchLisScreen(),arguments: msg);
             },
             color: kOrangeColor,
             padding: EdgeInsets.symmetric(
