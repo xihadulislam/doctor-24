@@ -38,13 +38,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Provider.of<DataProvider>(context, listen: false).fetchData();
-
   //  _getId().then((value) => deviceId = value);
   }
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
       body: Consumer<DataProvider>(
         builder: (ctx, data, _) => Column(
