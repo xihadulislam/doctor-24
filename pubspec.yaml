@@ -40,6 +40,7 @@ dependencies:
   mailto: ^1.1.0
   device_info: ^0.4.0+4
   gson: ^0.1.4
+  flutter_statusbarcolor: ^0.2.3
   firebase_core:
   firebase_database:
   firebase_auth:

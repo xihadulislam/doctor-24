@@ -99,7 +99,7 @@ class DataProvider with ChangeNotifier {
 
     String g = Gson().encode(_allDoctors);
     storeDoctorListInSP(g);
-  // storeLastUpdate(app.dateTime);
+   storeLastUpdate(app.dateTime);
     checkLocal();
   }
 
@@ -199,4 +199,5 @@ class DataProvider with ChangeNotifier {
     var data = _preferences.getString("last_update") ?? "";
     return data;
   }
+
 }
