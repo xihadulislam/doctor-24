@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/models/Department.dart';
+import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_doctor24/screens/doctorListScreen.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../constant.dart';
 
@@ -14,6 +16,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
+        Provider.of<DataProvider>(context,listen: false).getDoctorsByCategoryID(department.id);
         Get.to(()=> DoctorListScreen(department));
       },
       child: Container(

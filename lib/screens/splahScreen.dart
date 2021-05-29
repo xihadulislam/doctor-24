@@ -57,17 +57,19 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration.zero,
                 () => data.getIsFirstTime()== true
                 ? Get.off(() => OnboardingScreen())
-                : Container()),
+                : data.status == Result.Success
+                    ? Get.off(() => MainScreen())
+                    : Container()),
           builder: (ctx, _) => Container()),
 
-        FutureBuilder(
-                future: Future.delayed(
-                    Duration.zero,
-                    () => data.status == Result.Success
-                        ? Get.off(() => MainScreen())
-                        : Container()),
-                builder: (ctx, _) => Container()),
-
+        // FutureBuilder(
+        //         future: Future.delayed(
+        //             Duration.zero,
+        //             () => data.status == Result.Success
+        //                 ? Get.off(() => MainScreen())
+        //                 : Container()),
+        //         builder: (ctx, _) => Container()),
+        //
 
 
             Container(

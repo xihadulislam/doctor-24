@@ -24,7 +24,6 @@ class DoctorListScreen extends StatefulWidget {
 class _DoctorListScreenState extends State<DoctorListScreen> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<DataProvider>(context,listen: false).getDoctorsByCategoryID(widget.department.id);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

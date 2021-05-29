@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_doctor24/constant.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
-import 'package:flutter_doctor24/screens/home_screen.dart';
 import 'package:flutter_doctor24/screens/mainScreen.dart';
 import 'package:flutter_doctor24/utils/size_config.dart';
 import 'package:get/get.dart';
@@ -41,10 +42,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageView(
                   controller: _pageController,
                   children: [
-                    onBoardPage("onBoard1", "Choose Clothes"),
-                    onBoardPage("onBoard2", "Schedule Pickup"),
-                    onBoardPage("onBoard3", "Get Best Iron Service"),
-                    onBoardPage("onBoard4", "Get on Time Delivery"),
+                    onBoardPage("onBoard1", "আপনি কি ডাক্তারের সন্ধান করছেন?"),
+                    onBoardPage("onBoard2", "আপনার পরবর্তী ডাক্তারের জন্য সময়সূচী বাছাই করুন।"),
+                    onBoardPage("onBoard3", "সেরা ডাক্তারদের পরিষেবা নিন।"),
+                    onBoardPage("onBoard4", "আপনার রোগীকে একটি নির্দিষ্ট তারিখে ডাক্তার দেখান।"),
                   ],
                   onPageChanged: (value) => {setCurrentPage(value)},
                 ),
@@ -114,20 +115,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   DecorationImage(image: AssetImage('assets/images/$img.png'))),
         ),
         Container(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+          margin: EdgeInsets.only(top: 10),
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 30),
+          child: Center(
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500,color: kTitleTextColor),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: Text(
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum andard dummy text",
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-        )
       ],
     );
   }

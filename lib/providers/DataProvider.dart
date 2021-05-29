@@ -163,7 +163,7 @@ class DataProvider with ChangeNotifier {
     });
 
     Future.delayed(Duration(milliseconds: 300), () {
-      notifyListeners();
+   //   notifyListeners();
     });
 
   }
@@ -180,9 +180,12 @@ class DataProvider with ChangeNotifier {
         searchDoctorList.add(element);
       }
     });
+
+    loading = false;
+
     Future.delayed(Duration(milliseconds: 300), () {
-      loading = false;
-      notifyListeners();
+    //  loading = false;
+    //  notifyListeners();
     });
 
   }
@@ -222,7 +225,7 @@ class DataProvider with ChangeNotifier {
   }
 
   storeLastUpdate(String val) {
-    _preferences.setString("last_update", val);
+ //   _preferences.setString("last_update", val);
   }
 
   String getLastUpdate() {
@@ -231,7 +234,7 @@ class DataProvider with ChangeNotifier {
   }
 
   storeIsFirstTime(bool val) {
-    _preferences.setBool("isFirstTime", val);
+  //  _preferences.setBool("isFirstTime", val);
   }
 
   bool getIsFirstTime() {
