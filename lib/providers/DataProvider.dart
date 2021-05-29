@@ -225,7 +225,7 @@ class DataProvider with ChangeNotifier {
   }
 
   storeLastUpdate(String val) {
- //   _preferences.setString("last_update", val);
+    _preferences.setString("last_update", val);
   }
 
   String getLastUpdate() {
@@ -234,7 +234,7 @@ class DataProvider with ChangeNotifier {
   }
 
   storeIsFirstTime(bool val) {
-  //  _preferences.setBool("isFirstTime", val);
+    _preferences.setBool("isFirstTime", val);
   }
 
   bool getIsFirstTime() {
