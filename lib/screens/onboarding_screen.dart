@@ -14,6 +14,9 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentPage = 0;
+
+  int loading = 0;
+
   PageController _pageController = new PageController(
     initialPage: 0,
     keepPage: true,
@@ -43,39 +46,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   controller: _pageController,
                   children: [
                     onBoardPage("onBoard1", "আপনি কি ডাক্তারের সন্ধান করছেন?"),
-                    onBoardPage("onBoard2", "আপনার পরবর্তী ডাক্তারের জন্য সময়সূচী বাছাই করুন।"),
+                    onBoardPage("onBoard2",
+                        "আপনার পরবর্তী ডাক্তারের জন্য সময়সূচী বাছাই করুন।"),
                     onBoardPage("onBoard3", "সেরা ডাক্তারদের পরিষেবা নিন।"),
-                    onBoardPage("onBoard4", "আপনার রোগীকে একটি নির্দিষ্ট তারিখে ডাক্তার দেখান।"),
+                    onBoardPage("onBoard4",
+                        "আপনার রোগীকে একটি নির্দিষ্ট তারিখে ডাক্তার দেখান।"),
                   ],
                   onPageChanged: (value) => {setCurrentPage(value)},
                 ),
               ),
-              Spacer(
-              ),
+              Spacer(),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(4, (index) => getIndicator(index))),
-              Spacer(
-              ),
+              Spacer(),
               GestureDetector(
-                onTap: changePage,
-                child: Container(
-                  height: 70,
-                  width: 70,
-                  margin: EdgeInsets.only(bottom: 30),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                          colors: [Color(0xffee4545), Color(0xfff11010)],
-                          stops: [0, 1],
-                          begin: Alignment.topCenter)),
-                  child: Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
-                    size: 40,
-                  )
-                )
-              ),
+                  onTap: changePage,
+                  child: currentPage == 3
+                      ? buildLinerContainer()
+                      : buildRoundContainer()),
               SizedBox(
                 height: 8,
               )
@@ -84,6 +73,46 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ],
       ),
     );
+  }
+
+  Container buildRoundContainer() {
+    return Container(
+        height: 60,
+        width: 60,
+        margin: EdgeInsets.only(bottom: 30),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+                colors: [Color(0xffee4545), Color(0xfff11010)],
+                stops: [0, 1],
+                begin: Alignment.topCenter)),
+        child: Icon(
+          Icons.arrow_forward,
+          color: Colors.white,
+          size: 40,
+        ));
+  }
+
+  Container buildLinerContainer() {
+    return loading == 1
+        ? CircularProgressIndicator(
+            backgroundColor: Colors.redAccent,
+          )
+        : Container(
+            height: 60,
+            width: 260,
+            margin: EdgeInsets.only(bottom: 30),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                gradient: LinearGradient(
+                    colors: [Color(0xffee4545), Color(0xfff11010)],
+                    stops: [0, 1],
+                    begin: Alignment.topCenter)),
+            child: Center(
+                child: Text(
+              "Get Started",
+              style: TextStyle(color: Colors.white, fontSize: 24),
+            )));
   }
 
   setCurrentPage(int value) {
@@ -117,11 +146,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         Container(
           margin: EdgeInsets.only(top: 10),
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 30),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
           child: Center(
             child: Text(
               title,
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500,color: kTitleTextColor),
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                  color: kTitleTextColor),
               textAlign: TextAlign.center,
             ),
           ),
@@ -133,8 +165,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void changePage() {
     print(currentPage);
     if (currentPage == 3) {
-     Provider.of<DataProvider>(context,listen: false).storeIsFirstTime(false);
+      Provider.of<DataProvider>(context, listen: false).storeIsFirstTime(false);
       Get.off(() => MainScreen());
+      loading = 1;
+     // setState(() {});
     } else {
       _pageController.animateToPage(currentPage + 1,
           duration: Duration(milliseconds: 300), curve: Curves.linear);
