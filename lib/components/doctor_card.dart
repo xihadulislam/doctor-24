@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
 import 'package:flutter_doctor24/screens/detail_screen.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import '../constant.dart';
 
@@ -19,7 +20,7 @@ class DoctorCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => DetailScreen(doctor),
           ),
-        );
+        ).then((value) =>  FlutterStatusbarcolor.setStatusBarColor(Colors.white));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),

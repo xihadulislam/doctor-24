@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/schedule_card.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../constant.dart';
@@ -14,6 +15,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

@@ -163,38 +163,36 @@ class DataProvider with ChangeNotifier {
     });
 
     Future.delayed(Duration(milliseconds: 300), () {
-   //   notifyListeners();
+      //   notifyListeners();
     });
-
   }
+
 
 
   bool loading = true;
   List<Doctor> searchDoctorList = [];
 
   getDoctorsBySearch(String msg) {
-
     searchDoctorList.clear();
+    int cnt = 0;
     _allDoctorList.forEach((element) {
       if (element.name.contains(msg) || element.qualification.contains(msg)) {
-        searchDoctorList.add(element);
+        if (cnt < 20) searchDoctorList.add(element);
+        cnt++;
       }
     });
 
     loading = false;
 
     Future.delayed(Duration(milliseconds: 300), () {
-    //  loading = false;
-    //  notifyListeners();
+      notifyListeners();
     });
-
   }
-
 
   getTopDoctors(List<Doctor> posts) {
     posts.shuffle();
     _topDoctorList.clear();
-    for (int i = 0; i < min(posts.length, 5); i++) {
+    for (int i = 0; i < min(posts.length, 3); i++) {
       _topDoctorList.add(posts[i]);
     }
     notifyListeners();

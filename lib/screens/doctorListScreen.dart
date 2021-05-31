@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/doctor_card.dart';
 import 'package:flutter_doctor24/models/Department.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
@@ -24,6 +25,7 @@ class DoctorListScreen extends StatefulWidget {
 class _DoctorListScreenState extends State<DoctorListScreen> {
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(getColor(widget.department.color));
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -41,33 +43,6 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                 ),
                 child: Stack(
                   children: [
-                    // ClipPath(
-                    //   clipper: WaveClipper3(),
-                    //   child: Container(
-                    //     child: Column(),
-                    //     width: double.infinity,
-                    //     height: MediaQuery.of(context).size.height / 2,
-                    //     decoration: BoxDecoration(
-                    //         gradient: LinearGradient(colors: [
-                    //       Color(0x44ff3a5a),
-                    //       Color(0x44fe494d)
-                    //     ])),
-                    //   ),
-                    // ),
-                    //
-                    // ClipPath(
-                    //   clipper: WaveClipper3(),
-                    //   child: Container(
-                    //     child: Column(),
-                    //     width: double.infinity,
-                    //     height: MediaQuery.of(context).size.height / 3,
-                    //     decoration: BoxDecoration(
-                    //         gradient: LinearGradient(colors: [
-                    //       Color(0x44f34075),
-                    //      kOrangeColor
-                    //     ])),
-                    //   ),
-                    // ),
                     Padding(
                       padding: EdgeInsets.all(20),
                       child: Column(
@@ -99,12 +74,27 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                               ],
                             ),
                           ),
-
-                          Image.asset(
-                            'assets/icons/heart_surgeon.png',
-                            width: 100,
-                            height: 100,
+                          Spacer(
+                            flex: 2,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  widget.department.title,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 38,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Spacer(),
 
                         ],
                       ),
@@ -112,7 +102,20 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+
+              SizedBox(height: 30),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  "ডাক্তারদের তালিকা",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: kTitleTextColor,
+                      fontSize: 22),
+                ),
+              ),
+              SizedBox(height: 10),
               buildDoctorList(),
               SizedBox(height: 20),
             ],

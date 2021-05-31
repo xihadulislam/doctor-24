@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../constant.dart';
 
@@ -25,6 +26,8 @@ class ScheduleCard extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: ListTile(
           leading: Container(
+            height: 60,
+            width: 60,
             padding: EdgeInsets.symmetric(
               horizontal: 16,
             ),
@@ -32,27 +35,7 @@ class ScheduleCard extends StatelessWidget {
               color: _bgColor.withOpacity(0.3),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  _date,
-                  style: TextStyle(
-                    color: _bgColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  _month,
-                  style: TextStyle(
-                    color: _bgColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            child: SvgPicture.asset("assets/icons/stethoscope.svg",color: Colors.white,)
           ),
           title: Text(
             "পরামর্শ",

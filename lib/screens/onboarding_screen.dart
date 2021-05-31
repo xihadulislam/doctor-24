@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/constant.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
+import 'package:flutter_doctor24/screens/demo.dart';
 import 'package:flutter_doctor24/screens/mainScreen.dart';
 import 'package:flutter_doctor24/utils/size_config.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +29,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     SizeConfig().init(context);
     return Scaffold(
       body: Stack(
@@ -93,10 +99,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ));
   }
 
-  Container buildLinerContainer() {
+  Widget buildLinerContainer() {
     return loading == 1
-        ? CircularProgressIndicator(
-            backgroundColor: Colors.redAccent,
+        ? Container(
+            margin: EdgeInsets.only(bottom: 40),
+            height: 60,
+            width: 60,
+            child: Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.redAccent,
+              ),
+            ),
           )
         : Container(
             height: 60,
@@ -165,16 +178,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void changePage() {
     print(currentPage);
     if (currentPage == 3) {
-      Provider.of<DataProvider>(context, listen: false).storeIsFirstTime(false);
-      Get.off(() => MainScreen());
       loading = 1;
-     // setState(() {});
+      setState(() {});
+
+      Timer(Duration(microseconds: 500), () {
+        Provider.of<DataProvider>(context, listen: false)
+            .storeIsFirstTime(false);
+        Get.off(() => MainScreen());
+      });
     } else {
       _pageController.animateToPage(currentPage + 1,
           duration: Duration(milliseconds: 300), curve: Curves.linear);
     }
   }
 }
-
-
-

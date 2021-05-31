@@ -3,6 +3,7 @@ import 'package:flutter_doctor24/components/category_card.dart';
 import 'package:flutter_doctor24/components/doctor_card.dart';
 import 'package:flutter_doctor24/components/search_bar.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,18 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isDrawerOpen = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: AnimatedContainer(
@@ -28,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         transform: Matrix4.translationValues(xOffset, yOffset, 0)
           ..scale(isDrawerOpen ? 0.85 : 1.00)
           ..rotateZ(isDrawerOpen ? -50 : 0),
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: isDrawerOpen
@@ -36,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               : BorderRadius.circular(0),
         ),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -49,32 +63,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: <Widget>[
                     isDrawerOpen
                         ? GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Icon(Icons.arrow_back_ios),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          xOffset = 0;
-                          yOffset = 0;
-                          isDrawerOpen = false;
-                        });
-                      },
-                    )
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Icon(Icons.arrow_back_ios),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                xOffset = 0;
+                                yOffset = 0;
+                                isDrawerOpen = false;
+                                FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+                              });
+                            },
+                          )
                         : GestureDetector(
-                      child:Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SvgPicture.asset('assets/icons/menu.svg'),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          xOffset = 290;
-                          yOffset = 80;
-                          isDrawerOpen = true;
-                        });
-                      },
-                    ),
-
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: SvgPicture.asset('assets/icons/menu.svg'),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                xOffset = 290;
+                                yOffset = 80;
+                                isDrawerOpen = true;
+                                FlutterStatusbarcolor.setStatusBarColor(Colors.blueGrey);
+                              });
+                            },
+                          ),
                     GestureDetector(
                         onTap: () {
                           setState(() {

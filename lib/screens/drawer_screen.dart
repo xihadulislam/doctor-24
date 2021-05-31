@@ -12,12 +12,19 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+
+
   String projectAppID = "";
 
   @override
-  Widget build(BuildContext context) {
-
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     _getAppId();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Container(
       color: Colors.blueGrey,

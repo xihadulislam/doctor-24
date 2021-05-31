@@ -47,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
       body: Consumer<DataProvider>(
         builder: (ctx, data, _) => Column(
