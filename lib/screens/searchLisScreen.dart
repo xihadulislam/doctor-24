@@ -47,7 +47,16 @@ class SearchLisScreen extends StatelessWidget {
 
   buildDoctorList() {
     return Consumer<DataProvider>(
-        builder: (ctx, data, _) => Padding(
+        builder: (ctx, data, _) => data.loading== true ? Container(
+          margin: EdgeInsets.only(bottom: 40),
+          height: 60,
+          width: 60,
+          child: Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.redAccent,
+            ),
+          ),
+        ) : Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
                 child: Column(
@@ -94,7 +103,7 @@ class SearchBar extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: MaterialButton(
             onPressed: () {
-              data.loading = true;
+              data.setLoading();
               data.getDoctorsBySearch(searchController.text);
             },
             color: kOrangeColor,

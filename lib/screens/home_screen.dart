@@ -72,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 xOffset = 0;
                                 yOffset = 0;
                                 isDrawerOpen = false;
-                                FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+                                FlutterStatusbarcolor.setStatusBarColor(
+                                    Colors.white);
                               });
                             },
                           )
@@ -86,7 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 xOffset = 290;
                                 yOffset = 80;
                                 isDrawerOpen = true;
-                                FlutterStatusbarcolor.setStatusBarColor(Colors.blueGrey);
+                                FlutterStatusbarcolor.setStatusBarColor(
+                                    Colors.blueGrey);
                               });
                             },
                           ),
@@ -133,7 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 16),
-              buildCategoryList(),
+              FutureBuilder(
+                  future: Future.delayed(
+                      Duration(milliseconds: 1000), () => Container()),
+                  builder: (ctx, _) => buildCategoryList()),
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
@@ -147,7 +152,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              buildDoctorList(),
+
+              FutureBuilder(
+                  future: Future.delayed(
+                      Duration(milliseconds: 1000), () => Container()),
+                  builder: (ctx, _) => buildDoctorList()),
+
               SizedBox(height: 20)
             ],
           ),

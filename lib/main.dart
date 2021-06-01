@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: GetMaterialApp(
+        title: "Doctors 24",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme:

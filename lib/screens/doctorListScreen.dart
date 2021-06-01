@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/doctor_card.dart';
 import 'package:flutter_doctor24/models/Department.dart';
@@ -10,13 +12,9 @@ import 'dart:math' as math;
 import '../constant.dart';
 
 class DoctorListScreen extends StatefulWidget {
-
-
   final Department department;
 
   DoctorListScreen(this.department);
-
-
 
   @override
   _DoctorListScreenState createState() => _DoctorListScreenState();
@@ -93,9 +91,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                               ],
                             ),
                           ),
-
                           Spacer(),
-
                         ],
                       ),
                     ),
@@ -104,19 +100,9 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
               ),
 
               SizedBox(height: 30),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  "ডাক্তারদের তালিকা",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: kTitleTextColor,
-                      fontSize: 22),
-                ),
-              ),
-              SizedBox(height: 10),
-              buildDoctorList(),
+
+                buildDoctorList(),
+
               SizedBox(height: 20),
             ],
           ),
@@ -125,14 +111,40 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
     );
   }
 
-  buildDoctorList() {
+ Widget  buildDoctorList() {
     return Consumer<DataProvider>(
-        builder: (ctx, data, _) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
-            child: Column(
-              children: List.generate(data.doctorList.length,
-                  (index) => DoctorCard(data.doctorList[index])),
-            )));
+        builder: (ctx, data, _) => data.loading== true ? Container(
+          margin: EdgeInsets.only(bottom: 40),
+          height: 60,
+          width: 60,
+          child: Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.redAccent,
+            ),
+          ),
+        ) : Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                "ডাক্তারদের তালিকা",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: kTitleTextColor,
+                    fontSize: 22),
+              ),
+            ),
+            SizedBox(height: 10),
+
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
+                child: Column(
+                  children: List.generate(data.doctorList.length,
+                      (index) => DoctorCard(data.doctorList[index])),
+                )),
+          ],
+        ));
   }
 }
 

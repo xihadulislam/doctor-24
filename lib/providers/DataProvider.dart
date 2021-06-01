@@ -137,8 +137,8 @@ class DataProvider with ChangeNotifier {
           List<Department>.from(cat.map((model) => Department.fromJson(model)));
       _categoryList = categories;
 
-      var list = getDoctorListFormSp();
-      Iterable l = json.decode(list);
+      var stringList = getDoctorListFormSp();
+      Iterable l = json.decode(stringList);
       List<Doctor> posts = [];
       posts = List<Doctor>.from(l.map((model) => Doctor.fromJson(model)));
       _allDoctorList = posts;
@@ -156,35 +156,36 @@ class DataProvider with ChangeNotifier {
 
   getDoctorsByCategoryID(int id) {
     doctorList.clear();
-    _allDoctorList.forEach((element) {
-      if (element.categoryId == id) {
-        doctorList.add(element);
-      }
-    });
-
-    Future.delayed(Duration(milliseconds: 300), () {
-      //   notifyListeners();
+    Future.delayed(Duration(milliseconds: 1000), () {
+      _allDoctorList.forEach((element) {
+        if (element.categoryId == id) {
+          doctorList.add(element);
+        }
+      });
+      loading = false;
+      notifyListeners();
     });
   }
-
-
 
   bool loading = true;
   List<Doctor> searchDoctorList = [];
 
+  setLoading() {
+    loading = true;
+    notifyListeners();
+  }
+
   getDoctorsBySearch(String msg) {
     searchDoctorList.clear();
-    int cnt = 0;
-    _allDoctorList.forEach((element) {
-      if (element.name.contains(msg) || element.qualification.contains(msg)) {
-        if (cnt < 20) searchDoctorList.add(element);
-        cnt++;
-      }
-    });
-
-    loading = false;
-
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(Duration(milliseconds: 900), () {
+      int cnt = 0;
+      _allDoctorList.forEach((element) {
+        if (element.name.contains(msg) || element.qualification.contains(msg)) {
+          if (cnt < 20) searchDoctorList.add(element);
+          cnt++;
+        }
+      });
+      loading = false;
       notifyListeners();
     });
   }

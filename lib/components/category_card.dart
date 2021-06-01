@@ -18,7 +18,10 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Provider.of<DataProvider>(context,listen: false).getDoctorsByCategoryID(department.id);
+      var data =   Provider.of<DataProvider>(context,listen: false);
+      data.loading = true;
+      data.getDoctorsByCategoryID(department.id);
+
         Get.to(()=> DoctorListScreen(department)).then((value) =>  FlutterStatusbarcolor.setStatusBarColor(Colors.white));
       },
       child: Container(
