@@ -111,7 +111,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
     );
   }
 
- Widget  buildDoctorList() {
+ Widget  buildDoctorList(  ) {
     return Consumer<DataProvider>(
         builder: (ctx, data, _) => data.loading== true ? Container(
           margin: EdgeInsets.only(bottom: 40),
@@ -119,7 +119,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
           width: 60,
           child: Center(
             child: CircularProgressIndicator(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: getColor(widget.department.color),
             ),
           ),
         ) : Column(
@@ -141,7 +141,7 @@ class _DoctorListScreenState extends State<DoctorListScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
                 child: Column(
                   children: List.generate(data.doctorList.length,
-                      (index) => DoctorCard(data.doctorList[index])),
+                      (index) => DoctorCard(doctor: data.doctorList[index],color: widget.department.color,)),
                 )),
           ],
         ));

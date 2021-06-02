@@ -5,6 +5,7 @@ import 'package:flutter_doctor24/components/schedule_card.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constant.dart';
 
@@ -22,7 +23,8 @@ class DetailScreen extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              colorFilter: new ColorFilter.mode(getColor(doctor.color).withOpacity(0.8), BlendMode.dstATop),
+              colorFilter: new ColorFilter.mode(
+                  getColor(doctor.color).withOpacity(0.8), BlendMode.dstATop),
               image: AssetImage('assets/images/detail_illustration.png'),
               alignment: Alignment.topCenter,
               fit: BoxFit.fitWidth,
@@ -110,27 +112,39 @@ class DetailScreen extends StatelessWidget {
                                 ),
                                 Row(
                                   children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: kBlueColor.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/phone.svg',
+                                    InkWell(
+                                      onTap: () {
+                                        launch("tel://" + doctor.contact);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: kBlueColor.withOpacity(0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/phone.svg',
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
                                       width: 16,
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: kYellowColor.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/chat.svg',
+                                    InkWell(
+                                      onTap: () {
+                                        textMe(doctor.contact);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: kYellowColor.withOpacity(0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/chat.svg',
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -227,5 +241,21 @@ class DetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  textMe(String contact) async {
+    // Android
+    var uri = 'sms:$contact?body=hello%20there';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      // iOS
+      var uri = 'sms:$contact?body=hello%20there';
+      if (await canLaunch(uri)) {
+        await launch(uri);
+      } else {
+        throw 'Could not launch $uri';
+      }
+    }
   }
 }

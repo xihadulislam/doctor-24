@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/models/Doctor.dart';
 import 'package:flutter_doctor24/screens/detail_screen.dart';
@@ -7,9 +6,10 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import '../constant.dart';
 
 class DoctorCard extends StatelessWidget {
-
   final Doctor doctor;
-  DoctorCard(this.doctor);
+  final int color;
+
+  DoctorCard({@required this.doctor, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,13 @@ class DoctorCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => DetailScreen(doctor),
           ),
-        ).then((value) =>  FlutterStatusbarcolor.setStatusBarColor(Colors.white));
+        ).then((value) {
+          if (color == null) {
+            FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+          } else {
+            FlutterStatusbarcolor.setStatusBarColor(getColor(color));
+          }
+        });
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),

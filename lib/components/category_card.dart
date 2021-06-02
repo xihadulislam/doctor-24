@@ -61,7 +61,7 @@ class CategoryCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: SvgPicture.asset("assets/icons/stethoscope.svg",color: Colors.white,),
                 )
               ),

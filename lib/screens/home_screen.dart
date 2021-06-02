@@ -17,9 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   double xOffset = 0;
   double yOffset = 0;
-
   bool isDrawerOpen = false;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -98,6 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             xOffset = 290;
                             yOffset = 80;
                             isDrawerOpen = true;
+                            FlutterStatusbarcolor.setStatusBarColor(
+                                Colors.blueGrey);
                           });
                         },
                         child: SvgPicture.asset('assets/icons/profile.svg')),
@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Consumer<DataProvider>(
         builder: (ctx, data, _) => Column(
             children: List.generate(data.topDoctorList.length,
-                (index) => DoctorCard(data.topDoctorList[index]))),
+                (index) => DoctorCard(doctor: data.topDoctorList[index]))),
       ),
     );
   }

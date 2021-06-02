@@ -18,6 +18,7 @@ class SearchLisScreen extends StatelessWidget {
 
     return Scaffold(
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           SizedBox(
             height: 50,
@@ -61,14 +62,15 @@ class SearchLisScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 0.0),
                 child: Column(
                   children: List.generate(data.searchDoctorList.length,
-                      (index) => DoctorCard(data.searchDoctorList[index])),
+                      (index) => DoctorCard(doctor: data.searchDoctorList[index])),
                 )));
   }
 }
 
 class SearchBar extends StatelessWidget {
-  final String msg;
 
+
+  final String msg;
   SearchBar({this.msg});
 
   TextEditingController searchController = TextEditingController();
@@ -103,6 +105,7 @@ class SearchBar extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: MaterialButton(
             onPressed: () {
+              FocusManager.instance.primaryFocus.unfocus();
               data.setLoading();
               data.getDoctorsBySearch(searchController.text);
             },

@@ -38,116 +38,94 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-   var data = Provider.of<DataProvider>(context, listen: false);
-   data.fetchData();
+    var data = Provider.of<DataProvider>(context, listen: false);
+    data.fetchData();
 
-
-  //  _getId().then((value) => deviceId = value);
+    //  _getId().then((value) => deviceId = value);
   }
 
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
-      body: Consumer<DataProvider>(
-        builder: (ctx, data, _) => Column(
-          children: [
-
-        FutureBuilder(
-        future: Future.delayed(
-        Duration.zero,
-                () => data.getIsFirstTime()== true
-                ? Get.off(() => OnboardingScreen())
-                : data.status == Result.Success
-                    ? Get.off(() => MainScreen())
-                    : Container()),
-          builder: (ctx, _) => Container()),
-
-        // FutureBuilder(
-        //         future: Future.delayed(
-        //             Duration.zero,
-        //             () => data.status == Result.Success
-        //                 ? Get.off(() => MainScreen())
-        //                 : Container()),
-        //         builder: (ctx, _) => Container()),
-        //
-
-
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/bg.png"))),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/images/bg.png"))),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Consumer<DataProvider>(
+          builder: (ctx, data, _) => Column(
+            children: [
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Spacer(
-                        flex: 2,
-                      ),
-                      Text(
-                        "Doctor 24",
-                        style: TextStyle(
-                          fontSize: 48,
-                          color: kTitleTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    AssetImage("assets/images/sp_logo.png"))),
-                      ),
-
-                      Spacer(),
-                    ],
+                  Spacer(
+                    flex: 2,
                   ),
-                  Spacer(),
-
-                  FutureBuilder(
-                      future: Future.delayed(
-                          Duration.zero,
-                              () => data.status == Result.Failed
-                              ? Get.snackbar("Something Wrong !", "May be you don't have internet connection",snackPosition: SnackPosition.TOP,)
-                              : Container()),
-                      builder: (ctx, _) => Container()),
-
-
-                  CircularProgressIndicator(
-                    backgroundColor: Colors.redAccent,
-                  ),
-
-                  SizedBox(height: 20),
                   Text(
-                    "Developed By",
+                    "Doctor 24",
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 48,
                       color: kTitleTextColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 6),
-                  Text(
-                    "Ok CodeX".toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: kTitleTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/sp_logo.png"))),
                   ),
-
-                  SizedBox(height: 30)
+                  Spacer(),
                 ],
               ),
-            ),
-          ],
+              Spacer(),
+              FutureBuilder(
+                  future: Future.delayed(
+                      Duration.zero,
+                      () => data.status == Result.Failed
+                          ? Get.snackbar(
+                              "Something Wrong !",
+                              "May be you don't have internet connection",
+                              snackPosition: SnackPosition.TOP,
+                            )
+                          : Container()),
+                  builder: (ctx, _) => Container()),
+              CircularProgressIndicator(
+                backgroundColor: Colors.redAccent,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Developed By",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: kTitleTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 6),
+              Text(
+                "Ok CodeX".toUpperCase(),
+                style: TextStyle(
+                  fontSize: 22,
+                  color: kTitleTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              FutureBuilder(
+                  future: Future.delayed(
+                      Duration.zero,
+                      () => data.getIsFirstTime() == true
+                          ? Get.off(() => OnboardingScreen())
+                          : data.status == Result.Success
+                              ? Get.off(() => MainScreen())
+                              : Container()),
+                  builder: (ctx, _) => Container()),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

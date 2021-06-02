@@ -156,7 +156,7 @@ class DataProvider with ChangeNotifier {
 
   getDoctorsByCategoryID(int id) {
     doctorList.clear();
-    Future.delayed(Duration(milliseconds: 1000), () {
+    Future.delayed(Duration(milliseconds: 800), () {
       _allDoctorList.forEach((element) {
         if (element.categoryId == id) {
           doctorList.add(element);
@@ -177,7 +177,7 @@ class DataProvider with ChangeNotifier {
 
   getDoctorsBySearch(String msg) {
     searchDoctorList.clear();
-    Future.delayed(Duration(milliseconds: 900), () {
+    Future.delayed(Duration(milliseconds: 800), () {
       int cnt = 0;
       _allDoctorList.forEach((element) {
         if (element.name.contains(msg) || element.qualification.contains(msg)) {
@@ -193,7 +193,7 @@ class DataProvider with ChangeNotifier {
   getTopDoctors(List<Doctor> posts) {
     posts.shuffle();
     _topDoctorList.clear();
-    for (int i = 0; i < min(posts.length, 3); i++) {
+    for (int i = 0; i < min(posts.length, 5); i++) {
       _topDoctorList.add(posts[i]);
     }
     notifyListeners();
