@@ -232,12 +232,4 @@ class DataProvider with ChangeNotifier {
     return data;
   }
 
-  storeIsFirstTime(bool val) {
-    _preferences.setBool("isFirstTime", val);
-  }
-
-  bool getIsFirstTime() {
-    var data = _preferences.getBool("isFirstTime") ?? true;
-    return data;
-  }
 }

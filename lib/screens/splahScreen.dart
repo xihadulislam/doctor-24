@@ -4,9 +4,8 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
-import 'package:flutter_doctor24/screens/home_screen.dart';
+import 'package:flutter_doctor24/screens/add_doctors_screen.dart';
 import 'package:flutter_doctor24/screens/mainScreen.dart';
-import 'package:flutter_doctor24/screens/onboarding_screen.dart';
 import 'package:flutter_doctor24/utils/Result.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:get/get.dart';
@@ -117,9 +116,7 @@ class _SplashScreenState extends State<SplashScreen> {
               FutureBuilder(
                   future: Future.delayed(
                       Duration.zero,
-                      () => data.getIsFirstTime() == true
-                          ? Get.off(() => OnboardingScreen())
-                          : data.status == Result.Success
+                      () => data.status == Result.Success
                               ? Get.off(() => MainScreen())
                               : Container()),
                   builder: (ctx, _) => Container()),

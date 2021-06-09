@@ -3,46 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/components/doctor_card.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
 import '../constant.dart';
 
-class SearchLisScreen extends StatelessWidget {
+class DoctorsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var arg = Get.arguments;
+    var arg = "";
     var data = Provider.of<DataProvider>(context,listen: false);
     data.loading = true;
     data.getDoctorsBySearch(arg);
-
-    return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: Text(
-              'আপনার পছন্দসই\nডাক্তারটি সন্ধান করুন',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-                color: kTitleTextColor,
-              ),
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: [
+        SizedBox(
+          height: 50,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: Text(
+            'আপনার পছন্দসই\nডাক্তারটি সন্ধান করুন',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+              color: kTitleTextColor,
             ),
           ),
-          SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: SearchBar(msg: arg),
-          ),
-          SizedBox(height: 20),
-          buildDoctorList()
-        ],
-      ),
+        ),
+        SizedBox(height: 30),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: SearchBar(msg: arg),
+        ),
+        SizedBox(height: 20),
+        buildDoctorList()
+      ],
     );
   }
 
@@ -68,7 +63,6 @@ class SearchLisScreen extends StatelessWidget {
 }
 
 class SearchBar extends StatelessWidget {
-
 
   final String msg;
   SearchBar({this.msg});

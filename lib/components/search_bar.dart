@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
-import 'package:flutter_doctor24/screens/searchLisScreen.dart';
+import 'package:flutter_doctor24/screens/DoctorsScreen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class SearchBar extends StatelessWidget {
           child: MaterialButton(
             onPressed: () {
               FocusManager.instance.primaryFocus.unfocus();
-              Get.to(()=> SearchLisScreen(),arguments: msg);
+              Get.to(()=> DoctorsScreen(),arguments: msg);
             },
             color: kOrangeColor,
             padding: EdgeInsets.symmetric(

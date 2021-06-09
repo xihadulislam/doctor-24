@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doctor24/models/Department.dart';
 import 'package:flutter_doctor24/providers/DataProvider.dart';
-import 'package:flutter_doctor24/screens/doctorListScreen.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +19,6 @@ class CategoryCard extends StatelessWidget {
       var data =   Provider.of<DataProvider>(context,listen: false);
       data.loading = true;
       data.getDoctorsByCategoryID(department.id);
-
-        Get.to(()=> DoctorListScreen(department)).then((value) =>  FlutterStatusbarcolor.setStatusBarColor(Colors.white));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 6.0),
